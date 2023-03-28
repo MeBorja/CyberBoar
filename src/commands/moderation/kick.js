@@ -4,6 +4,7 @@ const {
   ApplicationCommandOptionType,
   PermissionFlagsBits,
 } = require('discord.js');
+const { roles } = require('../../../config.json')
 
 module.exports = {
   /**
@@ -17,9 +18,27 @@ module.exports = {
     const reason =
       interaction.options.get('reason')?.value || 'No reason provided';
 
-    await interaction.deferReply();
+      await interaction.deferReply();
+      
+      let role = [];
+      roles.forEach(e => {
+        role.push(e)
+      });
+
+      for (let l = 0; l < role.length; l++) {
+        if (role[l].id === targetUserId ) {
+          await interaction.editReply("Sorry, I cant kick roles");
+          return;
+        }
+        
+      }
+
 
     const targetUser = await interaction.guild.members.fetch(targetUserId);
+
+    
+
+    
 
     if (!targetUser) {
       await interaction.editReply("That user doesn't exist in this server.");

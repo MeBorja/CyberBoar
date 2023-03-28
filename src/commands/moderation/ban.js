@@ -4,6 +4,7 @@ const {
   ApplicationCommandOptionType,
   PermissionFlagsBits,
 } = require('discord.js');
+const { roles } = require('../../../config.json')
 
 module.exports = {
   /**
@@ -18,6 +19,20 @@ module.exports = {
       interaction.options.get('reason')?.value || 'No reason provided';
 
     await interaction.deferReply();
+
+    let role = [];
+    roles.forEach(e => {
+      role.push(e)
+    });
+
+    for (let l = 0; l < role.length; l++) {
+      if (role[l].id === targetUserId ) {
+        await interaction.editReply("Sorry, I cant ban roles");
+        return;
+      }
+      
+    }
+
 
     const targetUser = await interaction.guild.members.fetch(targetUserId);
 

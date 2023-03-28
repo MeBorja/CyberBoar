@@ -1,5 +1,6 @@
 const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js');
 const ms = require('ms');
+const { roles } = require('../../../config.json')
 
 module.exports = {
   /**
@@ -14,6 +15,19 @@ module.exports = {
     const reason = interaction.options.get('reason')?.value || 'No reason provided';
 
     await interaction.deferReply();
+
+    let role = [];
+    roles.forEach(e => {
+      role.push(e)
+    });
+
+    for (let l = 0; l < role.length; l++) {
+      if (role[l].id === mentionable ) {
+        await interaction.editReply("Sorry, I cant timeout roles");
+        return;
+      }
+      
+    }
 
     const targetUser = await interaction.guild.members.fetch(mentionable);
     if (!targetUser) {
